@@ -11,6 +11,7 @@ export const DoctorFinder: React.FC<Props> = ({ theme }) => {
   const [result, setResult] = useState<any>(null);
   const [isLocating, setIsLocating] = useState(false);
   const [hoveredIdx, setHoveredIdx] = useState<number | null>(null);
+  const [activeLocation, setActiveLocation] = useState('');
 
   useEffect(() => {
     fetchLocation(true);
@@ -32,6 +33,7 @@ export const DoctorFinder: React.FC<Props> = ({ theme }) => {
     e.preventDefault();
     if (!problem.trim()) return;
     setLoading(true);
+    setActiveLocation(location || 'Ranchi Area');
     try {
       const data = await findDoctors({
         problem,
@@ -61,17 +63,17 @@ export const DoctorFinder: React.FC<Props> = ({ theme }) => {
         <form onSubmit={handleSearch} className="space-y-10">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div className="space-y-4">
-              <label className={`text-[10px] font-black uppercase tracking-widest pl-2 ${theme === 'dark' ? 'text-brand-cyan' : 'text-slate-400'}`}>Goal / Specialist</label>
+              <label className={`text-[10px] font-black uppercase tracking-widest pl-2 ${theme === 'dark' ? 'text-brand-cyan' : 'text-slate-400'}`}>Specialist Need</label>
               <input
                 type="text"
-                placeholder="e.g. Cardiologist..."
+                placeholder="e.g. Skin Specialist..."
                 value={problem}
                 onChange={(e) => setProblem(e.target.value)}
                 className={`w-full border rounded-2xl px-6 py-5 text-xl outline-none transition-all shadow-inner ${theme === 'dark' ? 'bg-white/5 border-white/10 text-white placeholder:text-slate-600 focus:border-brand-indigo' : 'bg-slate-50 border-slate-200 text-slate-900 placeholder:text-slate-400 focus:border-brand-indigo'}`}
               />
             </div>
             <div className="space-y-4">
-              <label className={`text-[10px] font-black uppercase tracking-widest pl-2 ${theme === 'dark' ? 'text-brand-indigo' : 'text-slate-400'}`}>Target Area</label>
+              <label className={`text-[10px] font-black uppercase tracking-widest pl-2 ${theme === 'dark' ? 'text-brand-indigo' : 'text-slate-400'}`}>City / Locality</label>
               <div className="relative">
                 <input
                   type="text"
@@ -96,15 +98,27 @@ export const DoctorFinder: React.FC<Props> = ({ theme }) => {
           <button
             type="submit"
             disabled={loading || !problem}
-            className={`w-full py-6 rounded-[2.5rem] text-2xl font-black text-white shadow-xl transition-all disabled:opacity-50 active:scale-95 bg-gradient-to-r from-brand-indigo to-brand-cyan`}
+            className={`w-full py-6 rounded-[2.5rem] text-2xl font-black text-white shadow-xl transition-all disabled:opacity-50 active:scale-95 bg-gradient-to-r from-brand-rose via-brand-indigo to-brand-cyan`}
           >
-            {loading ? <div className="w-8 h-8 border-4 border-white border-t-transparent rounded-full animate-spin mx-auto"></div> : "SEARCH MED-FAST"}
+            {loading ? <div className="w-8 h-8 border-4 border-white border-t-transparent rounded-full animate-spin mx-auto"></div> : "FIND INSTANT CARE"}
           </button>
         </form>
       </div>
 
       {result && (
         <div className="space-y-12 animate-in fade-in slide-in-from-bottom-8 duration-1000">
+          {/* Location Header */}
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 px-6 py-8 glass-vibrant rounded-[2.5rem] border-l-8 border-l-brand-rose">
+            <div>
+              <div className={`text-[10px] font-black uppercase tracking-[0.4em] ${theme === 'dark' ? 'text-brand-rose' : 'text-slate-400'}`}>Showing results for</div>
+              <h2 className={`text-3xl font-display font-black tracking-tight ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>{activeLocation}</h2>
+            </div>
+            <div className={`text-right hidden md:block ${theme === 'dark' ? 'text-slate-500' : 'text-slate-400'}`}>
+               <div className="text-[10px] font-black uppercase tracking-widest">Powered by</div>
+               <div className="text-xl font-display font-black gradient-text">Med-fast AI</div>
+            </div>
+          </div>
+
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
             {result.chunks.map((chunk: any, idx: number) => {
               const data = chunk.maps || chunk.web;
@@ -171,10 +185,10 @@ export const DoctorFinder: React.FC<Props> = ({ theme }) => {
             })}
           </div>
 
-          <div className={`glass-vibrant p-12 rounded-[3.5rem] prose max-w-none border-t-8 border-t-brand-indigo ${theme === 'dark' ? 'prose-invert' : 'prose-indigo prose-lg'}`}>
-            <h2 className="text-3xl font-display font-extrabold m-0 mb-8 flex items-center gap-4">
-               <span className="w-12 h-12 bg-brand-indigo rounded-2xl flex items-center justify-center text-white text-base">AI</span>
-               Narrative Insight
+          <div className={`glass-vibrant p-12 rounded-[3.5rem] prose max-w-none border-t-8 border-t-brand-indigo shadow-2xl ${theme === 'dark' ? 'prose-invert' : 'prose-indigo prose-lg'}`}>
+            <h2 className="text-3xl font-display font-black m-0 mb-8 flex items-center gap-4">
+               <span className="w-12 h-12 bg-gradient-to-tr from-brand-rose via-brand-indigo to-brand-cyan rounded-2xl flex items-center justify-center text-white text-base font-black shadow-lg">AI</span>
+               Detailed Narrative Care Plan
             </h2>
             <ReactMarkdown>{result.text}</ReactMarkdown>
           </div>

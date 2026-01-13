@@ -29,8 +29,8 @@ function App() {
           
           {/* Logo */}
           <div className="mb-6 relative group animate-float">
-            <div className={`absolute inset-0 blur-3xl opacity-30 group-hover:opacity-50 transition-opacity ${theme === 'dark' ? 'bg-brand-indigo' : 'bg-brand-cyan'}`}></div>
-            <svg width="80" height="80" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" className="relative drop-shadow-2xl">
+            <div className={`absolute inset-0 blur-3xl opacity-30 group-hover:opacity-50 transition-opacity ${theme === 'dark' ? 'bg-brand-rose' : 'bg-brand-indigo'}`}></div>
+            <svg width="80" height="80" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" className="relative drop-shadow-2xl transition-transform duration-700 group-hover:rotate-[360deg]">
               <path d="M20 30V45C20 61.5685 33.4315 75 50 75C66.5685 75 80 61.5685 80 45V30" stroke={theme === 'dark' ? 'white' : '#1e293b'} strokeWidth="4" strokeLinecap="round"/>
               <path d="M50 75V85C50 90.5228 54.4772 95 60 95H70" stroke={theme === 'dark' ? 'white' : '#1e293b'} strokeWidth="4" strokeLinecap="round"/>
               <circle cx="78" cy="95" r="5" fill="#f43f5e" />
@@ -41,27 +41,28 @@ function App() {
             </svg>
           </div>
 
-          <h1 className="text-6xl md:text-8xl font-display font-extrabold tracking-tighter mb-2 animate-in fade-in zoom-in duration-1000">
-            <span className="gradient-text">Med-fast</span>
+          <h1 className="text-7xl md:text-9xl font-display font-black tracking-tighter mb-2 animate-in fade-in zoom-in duration-1000">
+            <span className="bg-gradient-to-r from-brand-rose via-brand-indigo to-brand-cyan bg-clip-text text-transparent">Med</span>
+            <span className={theme === 'dark' ? 'text-white/90' : 'text-slate-800'}>-fast</span>
           </h1>
           
-          <p className={`text-lg md:text-xl font-display font-medium tracking-tight mb-10 max-w-lg ${theme === 'dark' ? 'text-slate-400' : 'text-slate-600'}`}>
+          <p className={`text-lg md:text-xl font-display font-medium tracking-tight mb-12 max-w-lg ${theme === 'dark' ? 'text-slate-400' : 'text-slate-600'}`}>
             Healthcare at the speed of life.
           </p>
 
           {/* Mode Switcher */}
-          <div className={`flex backdrop-blur-3xl p-1.5 rounded-full border transition-all ${theme === 'dark' ? 'bg-white/5 border-white/10' : 'bg-slate-200/50 border-slate-300'}`}>
+          <div className={`flex backdrop-blur-3xl p-2 rounded-full border transition-all shadow-2xl ${theme === 'dark' ? 'bg-white/5 border-white/10 shadow-black' : 'bg-slate-200/50 border-slate-300 shadow-indigo-100'}`}>
             {[
               { id: AppMode.FIND_DOCTOR, label: 'Search', icon: '🔍' },
               { id: AppMode.ANALYZE_PRESCRIPTION, label: 'Report', icon: '🧾' },
-              { id: AppMode.LOCAL_DIRECTORY, label: 'Directory', icon: '📍' },
+              { id: AppMode.LOCAL_DIRECTORY, label: 'Directory', icon: '🏥' },
             ].map((item) => (
               <button 
                 key={item.id}
                 onClick={() => setMode(item.id)}
-                className={`relative px-6 md:px-10 py-3 rounded-full text-sm font-bold transition-all flex items-center gap-2 group ${
+                className={`relative px-6 md:px-10 py-3.5 rounded-full text-sm font-black transition-all flex items-center gap-2 group ${
                   mode === item.id 
-                  ? 'bg-brand-indigo text-white shadow-lg' 
+                  ? 'bg-gradient-to-r from-brand-rose via-brand-indigo to-brand-cyan text-white shadow-lg' 
                   : theme === 'dark' ? 'text-slate-400 hover:text-white' : 'text-slate-600 hover:text-slate-900'
                 }`}
               >
@@ -82,19 +83,19 @@ function App() {
       </main>
 
       <footer className={`py-12 no-print border-t transition-colors ${theme === 'dark' ? 'border-white/5 bg-black/20' : 'border-slate-200 bg-white/50'}`}>
-        <div className="max-w-6xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-8 text-center md:text-left">
+        <div className="max-w-6xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-12 text-center md:text-left">
           <div>
-            <div className="text-2xl font-display font-bold gradient-text mb-1">Med-fast</div>
-            <p className={`${theme === 'dark' ? 'text-slate-500' : 'text-slate-400'} text-[10px] font-black tracking-widest uppercase`}>Instant Care Access • 2026</p>
+            <div className="text-3xl font-display font-black gradient-text mb-1">Med-fast</div>
+            <p className={`${theme === 'dark' ? 'text-slate-500' : 'text-slate-400'} text-[10px] font-black tracking-[0.4em] uppercase`}>Precision Healthcare Access • 2026</p>
           </div>
-          <div className="flex gap-10">
+          <div className="flex gap-12">
             <div>
-              <div className={`text-2xl font-bold ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>Ranchi</div>
-              <div className="text-[10px] text-brand-indigo font-black uppercase tracking-widest">Active Hub</div>
+              <div className={`text-2xl font-display font-black ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>Ranchi</div>
+              <div className="text-[10px] text-brand-rose font-black uppercase tracking-widest">Global Hub</div>
             </div>
             <div>
-              <div className={`text-2xl font-bold ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>AI Core</div>
-              <div className="text-[10px] text-brand-cyan font-black uppercase tracking-widest">Powered</div>
+              <div className={`text-2xl font-display font-black ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>Gemini 3</div>
+              <div className="text-[10px] text-brand-cyan font-black uppercase tracking-widest">AI Engine</div>
             </div>
           </div>
         </div>
