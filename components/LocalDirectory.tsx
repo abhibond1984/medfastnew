@@ -31,7 +31,7 @@ export const LocalDirectory: React.FC<Props> = ({ theme }) => {
             value={query}
             onChange={(e) => setQuery(e.target.value)}
           />
-          <span className="absolute right-6 top-1/2 -translate-y-1/2 text-2xl opacity-40">✨</span>
+          <span className="absolute right-8 top-1/2 -translate-y-1/2 text-2xl group-hover:scale-125 transition-transform duration-500">✨</span>
         </div>
       </div>
 
@@ -43,16 +43,16 @@ export const LocalDirectory: React.FC<Props> = ({ theme }) => {
             onMouseEnter={() => setHoveredIdx(idx)}
             onMouseLeave={() => setHoveredIdx(null)}
           >
-            <div className={`glass-vibrant rounded-[3.5rem] overflow-hidden flex flex-col justify-between border-b-8 transition-all duration-500 hover:-translate-y-2 relative z-10 ${theme === 'dark' ? 'hover:border-b-brand-rose' : 'hover:border-b-brand-indigo shadow-2xl'}`}>
-              <div className="h-60 overflow-hidden relative">
+            <div className={`glass-vibrant rounded-[3.5rem] overflow-hidden flex flex-col justify-between border-b-8 transition-all duration-700 hover:-translate-y-2 relative z-10 ${theme === 'dark' ? 'hover:border-b-brand-rose' : 'hover:border-b-brand-indigo shadow-2xl'}`}>
+              <div className="h-64 overflow-hidden relative">
                 <img 
                   src={`https://images.unsplash.com/photo-${item.img}?auto=format&fit=crop&q=80&w=600&h=400`} 
                   alt={item.name} 
                   className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110 opacity-80 group-hover:opacity-100"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent"></div>
                 <div className="absolute bottom-6 left-8">
-                  <span className="bg-brand-rose text-white text-[9px] font-black px-4 py-1.5 rounded-full uppercase tracking-[0.2em] shadow-lg">Verified Expert</span>
+                  <span className="bg-brand-rose text-white text-[9px] font-black px-4 py-2 rounded-full uppercase tracking-[0.2em] shadow-lg">Verified Care</span>
                 </div>
               </div>
 
@@ -63,7 +63,7 @@ export const LocalDirectory: React.FC<Props> = ({ theme }) => {
               </div>
               
               <div className={`p-10 pt-0 border-t ${theme === 'dark' ? 'border-white/5' : 'border-slate-100'}`}>
-                <div className="flex items-center gap-2 mb-6 text-[11px] font-black uppercase tracking-widest text-slate-500">
+                <div className="flex items-center gap-2 mb-8 text-[11px] font-black uppercase tracking-widest text-slate-500">
                   <span className="w-2 h-2 rounded-full bg-brand-cyan animate-pulse"></span>
                   {item.facility}
                 </div>
@@ -78,39 +78,39 @@ export const LocalDirectory: React.FC<Props> = ({ theme }) => {
 
             {/* Directory Hover Insight Pop-up */}
             {hoveredIdx === idx && (
-              <div className="absolute top-0 left-0 w-full h-full z-20 pointer-events-none animate-in fade-in zoom-in-95 duration-300">
-                <div className={`w-full h-full backdrop-blur-3xl rounded-[3.5rem] p-10 border-4 border-brand-rose flex flex-col justify-center gap-6 shadow-[0_0_60px_rgba(244,63,94,0.3)] ${theme === 'dark' ? 'bg-[#0a0f1e]/95' : 'bg-white/98'}`}>
+              <div className="absolute top-0 left-0 w-full h-full z-20 pointer-events-none animate-in fade-in zoom-in-95 duration-500">
+                <div className={`w-full h-full backdrop-blur-3xl rounded-[3.5rem] p-10 border-4 border-brand-rose flex flex-col justify-center gap-8 shadow-[0_0_60px_rgba(244,63,94,0.3)] ${theme === 'dark' ? 'bg-[#0a0f1e]/95' : 'bg-white/98'}`}>
                   <div className="flex justify-between items-center mb-2">
-                    <div className="flex gap-1.5">
+                    <div className="flex gap-2">
                       {[1, 2, 3, 4, 5].map(s => (
-                        <span key={s} className={`text-xl ${s <= Math.round(item.rating) ? 'text-brand-rose' : 'text-slate-700'}`}>★</span>
+                        <span key={s} className={`text-2xl ${s <= Math.round(item.rating) ? 'text-brand-rose' : 'text-slate-700'}`}>★</span>
                       ))}
                     </div>
-                    <span className="bg-brand-cyan/20 text-brand-cyan text-[10px] font-black px-3 py-1 rounded-full uppercase">{item.rating} Rating</span>
+                    <span className="bg-brand-cyan/20 text-brand-cyan text-[11px] font-black px-4 py-2 rounded-full uppercase tracking-widest">{item.rating} Rating</span>
                   </div>
                   
-                  <div className="space-y-6">
-                    <div className="flex gap-4 items-center">
-                       <img src={`https://images.unsplash.com/photo-${item.img}?auto=format&fit=crop&q=80&w=100&h=100`} className="w-16 h-16 rounded-2xl object-cover ring-2 ring-brand-rose/30" alt="Dr Profile" />
+                  <div className="space-y-8">
+                    <div className="flex gap-6 items-center">
+                       <img src={`https://images.unsplash.com/photo-${item.img}?auto=format&fit=crop&q=80&w=120&h=120`} className="w-20 h-20 rounded-3xl object-cover ring-4 ring-brand-rose/20 shadow-2xl" alt="Dr Profile" />
                        <div>
-                          <div className={`font-black text-lg ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>{item.name}</div>
-                          <div className="text-[10px] font-black uppercase text-brand-indigo tracking-widest">{item.specialty} Specialist</div>
+                          <div className={`font-black text-2xl leading-none mb-1 ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>{item.name}</div>
+                          <div className="text-[11px] font-black uppercase text-brand-indigo tracking-widest">{item.specialty} Specialist</div>
                        </div>
                     </div>
                     
-                    <p className={`text-sm font-medium leading-relaxed ${theme === 'dark' ? 'text-slate-300' : 'text-slate-600'}`}>
-                      Providing world-class healthcare in Ranchi. Expert in advanced medical diagnostics and patient-centric treatments.
+                    <p className={`text-base font-medium leading-relaxed ${theme === 'dark' ? 'text-slate-300' : 'text-slate-600'}`}>
+                      Providing world-class healthcare in Ranchi. Expert in advanced medical diagnostics and patient-centric treatments with modern facility access.
                     </p>
                     
-                    <div className="flex flex-wrap gap-2">
+                    <div className="flex flex-wrap gap-3">
                       {item.tags.map(tag => (
-                        <span key={tag} className="bg-brand-indigo/10 text-brand-indigo text-[9px] font-black px-3 py-1.5 rounded-full border border-brand-indigo/20 uppercase tracking-wider">{tag}</span>
+                        <span key={tag} className="bg-brand-indigo/10 text-brand-indigo text-[10px] font-black px-4 py-2 rounded-full border border-brand-indigo/20 uppercase tracking-widest">{tag}</span>
                       ))}
                     </div>
                   </div>
                   
-                  <div className="pt-6 border-t border-white/10 text-center">
-                    <span className="text-[10px] font-black text-brand-rose uppercase tracking-widest animate-pulse">View Complete Bio & Schedule</span>
+                  <div className="pt-8 border-t border-white/10 text-center">
+                    <span className="text-[11px] font-black text-brand-rose uppercase tracking-[0.3em] animate-pulse">Schedule Appointment Now</span>
                   </div>
                 </div>
               </div>

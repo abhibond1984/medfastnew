@@ -17,7 +17,7 @@ function App() {
 
   return (
     <div className={`min-h-screen flex flex-col relative overflow-hidden transition-colors duration-500 ${theme === 'dark' ? 'bg-[#0a0f1e]' : 'bg-[#f8f9ff]'}`}>
-      {/* Animated Vibrant Background Blobs */}
+      {/* Dynamic Background Elements */}
       <div className="blob-vibrant bg-brand-indigo w-[600px] h-[600px] top-[-200px] left-[-100px] animate-morph"></div>
       <div className="blob-vibrant bg-brand-cyan w-[500px] h-[500px] bottom-[-100px] right-[-100px] animate-morph" style={{ animationDelay: '2s' }}></div>
       <div className="blob-vibrant bg-brand-rose w-[400px] h-[400px] top-[20%] right-[10%] animate-morph" style={{ animationDelay: '4s' }}></div>
@@ -29,35 +29,34 @@ function App() {
         onToggleTheme={toggleTheme} 
       />
       
-      <main className="flex-grow z-10 pt-24 pb-12 px-6 no-print">
+      <main className="flex-grow z-10 pt-28 pb-12 px-6 no-print">
         <div className="max-w-7xl mx-auto flex flex-col items-center text-center mb-12">
           
-          {/* Logo with 2-tone pill and stethoscope elements */}
-          <div className="mb-6 relative group animate-float">
+          {/* Logo Branding */}
+          <div className="mb-8 relative group animate-float">
             <div className={`absolute inset-0 blur-3xl opacity-30 group-hover:opacity-50 transition-opacity ${theme === 'dark' ? 'bg-brand-rose' : 'bg-brand-indigo'}`}></div>
-            <svg width="100" height="100" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" className="relative drop-shadow-2xl transition-transform duration-700 group-hover:rotate-[360deg]">
+            <svg width="100" height="100" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" className="relative drop-shadow-2xl transition-transform duration-1000 group-hover:rotate-[360deg]">
               <path d="M20 30V45C20 61.5685 33.4315 75 50 75C66.5685 75 80 61.5685 80 45V30" stroke={theme === 'dark' ? 'white' : '#1e293b'} strokeWidth="4" strokeLinecap="round"/>
               <path d="M50 75V85C50 90.5228 54.4772 95 60 95H70" stroke={theme === 'dark' ? 'white' : '#1e293b'} strokeWidth="4" strokeLinecap="round"/>
               <circle cx="78" cy="95" r="5" fill="#f43f5e" />
               <path d="M20 25V30" stroke="#06b6d4" strokeWidth="6" strokeLinecap="round"/>
               <path d="M80 25V30" stroke="#6366f1" strokeWidth="6" strokeLinecap="round"/>
-              {/* Dual-tone pill core */}
               <rect x="42" y="15" width="16" height="36" rx="8" fill="#06b6d4" />
               <rect x="42" y="33" width="16" height="18" rx="8" fill="#6366f1" />
             </svg>
           </div>
 
-          <h1 className="text-7xl md:text-9xl font-display font-black tracking-tighter mb-2 animate-in fade-in zoom-in duration-1000">
+          <h1 className="text-7xl md:text-9xl font-display font-black tracking-tighter mb-4 animate-in fade-in zoom-in duration-1000">
             <span className="bg-gradient-to-r from-brand-rose via-brand-indigo to-brand-cyan bg-clip-text text-transparent">Med</span>
             <span className={theme === 'dark' ? 'text-white/90' : 'text-slate-800'}>-fast</span>
           </h1>
           
-          <p className={`text-lg md:text-xl font-display font-medium tracking-tight mb-12 max-w-lg ${theme === 'dark' ? 'text-slate-400' : 'text-slate-600'}`}>
+          <p className={`text-lg md:text-2xl font-display font-medium tracking-tight mb-12 max-w-xl ${theme === 'dark' ? 'text-slate-400' : 'text-slate-600'}`}>
             Healthcare at the speed of life.
           </p>
 
-          {/* Attractive Glassmorphic Mode Switcher */}
-          <div className={`flex backdrop-blur-3xl p-2 rounded-full border transition-all shadow-2xl ${theme === 'dark' ? 'bg-white/5 border-white/10 shadow-black' : 'bg-slate-200/50 border-slate-300 shadow-indigo-100'}`}>
+          {/* Mode Switcher */}
+          <div className={`flex backdrop-blur-3xl p-2 rounded-full border transition-all shadow-2xl ${theme === 'dark' ? 'bg-white/5 border-white/10' : 'bg-slate-200/50 border-slate-300'}`}>
             {[
               { id: AppMode.FIND_DOCTOR, label: 'Search', icon: '🔍' },
               { id: AppMode.ANALYZE_PRESCRIPTION, label: 'Report', icon: '🧾' },
@@ -66,13 +65,13 @@ function App() {
               <button 
                 key={item.id}
                 onClick={() => setMode(item.id)}
-                className={`relative px-6 md:px-10 py-3.5 rounded-full text-sm font-black transition-all flex items-center gap-2 group ${
+                className={`relative px-6 md:px-12 py-4 rounded-full text-sm font-black transition-all flex items-center gap-3 group ${
                   mode === item.id 
-                  ? 'bg-gradient-to-r from-brand-rose via-brand-indigo to-brand-cyan text-white shadow-lg' 
+                  ? 'bg-gradient-to-r from-brand-rose via-brand-indigo to-brand-cyan text-white shadow-xl scale-105' 
                   : theme === 'dark' ? 'text-slate-400 hover:text-white' : 'text-slate-600 hover:text-slate-900'
                 }`}
               >
-                <span>{item.icon}</span>
+                <span className="text-lg">{item.icon}</span>
                 {item.label}
               </button>
             ))}
@@ -80,7 +79,7 @@ function App() {
         </div>
 
         <div className="max-w-6xl mx-auto pb-24">
-          <div className="animate-in fade-in slide-in-from-bottom-6 duration-1000">
+          <div className="animate-in fade-in slide-in-from-bottom-6 duration-700">
             {mode === AppMode.FIND_DOCTOR && <DoctorFinder theme={theme} />}
             {mode === AppMode.ANALYZE_PRESCRIPTION && <PrescriptionAnalyzer theme={theme} />}
             {mode === AppMode.LOCAL_DIRECTORY && <LocalDirectory theme={theme} />}
@@ -91,7 +90,10 @@ function App() {
       <footer className={`py-12 no-print border-t transition-colors ${theme === 'dark' ? 'border-white/5 bg-black/20' : 'border-slate-200 bg-white/50'}`}>
         <div className="max-w-6xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-12 text-center md:text-left">
           <div>
-            <div className="text-3xl font-display font-black gradient-text mb-1">Med-fast</div>
+            <div className="text-3xl font-display font-black tracking-tight mb-2">
+               <span className="bg-gradient-to-r from-brand-rose via-brand-indigo to-brand-cyan bg-clip-text text-transparent">Med</span>
+               <span className={theme === 'dark' ? 'text-white' : 'text-slate-900'}>-fast</span>
+            </div>
             <p className={`${theme === 'dark' ? 'text-slate-500' : 'text-slate-400'} text-[10px] font-black tracking-[0.4em] uppercase`}>Precision Healthcare Access • 2026</p>
           </div>
           <div className="flex gap-12">
@@ -100,8 +102,8 @@ function App() {
               <div className="text-[10px] text-brand-rose font-black uppercase tracking-widest">Global Hub</div>
             </div>
             <div>
-              <div className={`text-2xl font-display font-black ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>Gemini 3</div>
-              <div className="text-[10px] text-brand-cyan font-black uppercase tracking-widest">AI Engine</div>
+              <div className={`text-2xl font-display font-black ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>Gemini AI</div>
+              <div className="text-[10px] text-brand-cyan font-black uppercase tracking-widest">Core Engine</div>
             </div>
           </div>
         </div>
