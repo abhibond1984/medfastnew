@@ -8,134 +8,95 @@ import { AppMode } from './types';
 function App() {
   const [mode, setMode] = useState<AppMode>(AppMode.FIND_DOCTOR);
 
-  // Calculate position of the sliding pill based on active mode
-  const getPillStyle = () => {
+  const getPillPosition = () => {
     switch(mode) {
-        case AppMode.FIND_DOCTOR:
-            return { left: '4px', width: 'calc(33.33% - 6px)' };
-        case AppMode.ANALYZE_PRESCRIPTION:
-            return { left: 'calc(33.33% + 2px)', width: 'calc(33.33% - 6px)' };
-        case AppMode.LOCAL_DIRECTORY:
-            return { left: 'calc(66.66% + 0px)', width: 'calc(33.33% - 4px)' };
-        default:
-            return { left: '4px', width: 'calc(33.33% - 6px)' };
+      case AppMode.FIND_DOCTOR: return '0%';
+      case AppMode.ANALYZE_PRESCRIPTION: return '33.33%';
+      case AppMode.LOCAL_DIRECTORY: return '66.66%';
+      default: return '0%';
     }
   };
 
   return (
     <div className="min-h-screen bg-slate-50 flex flex-col font-sans overflow-x-hidden">
-      <Navigation currentMode={mode} onModeChange={setMode} />
+      <Navigation />
       
       <main className="flex-grow">
-        {/* Modern Hero Section with Vibrant Aesthetics */}
-        <div className="relative bg-white pb-10 pt-10 lg:pt-16 overflow-hidden">
-           
-           {/* Vibrant Background Blobs */}
+        {/* Modern Hero Section */}
+        <div className="relative bg-white pb-12 pt-12 lg:pt-20 overflow-hidden print:hidden">
+           {/* Ambient Background */}
            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-full pointer-events-none">
-              <div className="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] bg-neon-purple rounded-full mix-blend-multiply filter blur-[120px] opacity-20 animate-float"></div>
-              <div className="absolute top-[10%] right-[-10%] w-[400px] h-[400px] bg-neon-blue rounded-full mix-blend-multiply filter blur-[100px] opacity-20 animate-float" style={{animationDelay: '2s'}}></div>
-              <div className="absolute bottom-[-10%] left-[20%] w-[600px] h-[600px] bg-neon-pink rounded-full mix-blend-multiply filter blur-[130px] opacity-15 animate-float" style={{animationDelay: '4s'}}></div>
+              <div className="absolute top-[-5%] left-[-5%] w-[400px] h-[400px] bg-neon-blue rounded-full mix-blend-multiply filter blur-[100px] opacity-10 animate-float"></div>
+              <div className="absolute bottom-0 right-[5%] w-[400px] h-[400px] bg-neon-pink rounded-full mix-blend-multiply filter blur-[100px] opacity-10 animate-float" style={{animationDelay: '3s'}}></div>
            </div>
 
-           <div className="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center flex flex-col items-center z-10">
+           <div className="relative max-w-5xl mx-auto px-4 text-center flex flex-col items-center z-10">
               
-              {/* Giant Animated Logo */}
-              <div className="mb-6 relative w-40 h-40 sm:w-48 sm:h-48 flex items-center justify-center">
-                 <svg className="w-full h-full dance-icon drop-shadow-2xl" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    {/* Stethoscope Background */}
-                    <path d="M20 20V30C20 45 30 55 50 55C70 55 80 45 80 30V20" stroke="#1e293b" strokeWidth="6" strokeLinecap="round"/>
-                    <path d="M50 55V75C50 85 60 90 70 90H75" stroke="#1e293b" strokeWidth="6" strokeLinecap="round"/>
-                    <circle cx="85" cy="90" r="8" fill="#f1f5f9" stroke="#1e293b" strokeWidth="4"/>
-                    
-                    {/* Large 2-Color Pill - Dancing */}
-                    <g transform="translate(50, 40)"> 
-                       <g transform="rotate(-30)">
-                          {/* Bottom Half - Neon Pink */}
-                          <path d="M-15 0H15V15C15 23.2843 8.28427 30 0 30C-8.28427 30 -15 23.2843 -15 15V0Z" fill="#ff00ff"/>
-                          {/* Top Half - Neon Green */}
-                          <path d="M-15 0H15V-15C15 -23.2843 8.28427 -30 0 -30C-8.28427 -30 -15 -23.2843 -15 -15V0Z" fill="#ccff00"/>
-                          {/* Shine/Reflection */}
-                          <path d="M-8 -20C-8 -24 -5 -26 0 -26" stroke="white" strokeWidth="3" strokeLinecap="round" opacity="0.6"/>
-                       </g>
+              {/* Large Hero Logo */}
+              <div className="mb-8 relative group">
+                 <div className="absolute inset-0 bg-neon-pink/20 blur-3xl rounded-full scale-150 group-hover:bg-neon-blue/20 transition-colors duration-700"></div>
+                 <svg className="w-48 h-48 sm:w-56 sm:h-56 relative z-10 drop-shadow-2xl" viewBox="0 0 100 100" fill="none">
+                    <path d="M30 40C30 25 40 20 50 20C60 20 70 25 70 40V50C70 65 60 70 50 70C40 70 30 65 30 50V40Z" fill="white" stroke="#1e293b" strokeWidth="2"/>
+                    {/* The 2-Tone Pill */}
+                    <g className="animate-dance" style={{ transformOrigin: '50px 45px' }}>
+                       <path d="M40 30V45H60V30C60 24.4772 55.5228 20 50 20C44.4772 20 40 24.4772 40 30Z" fill="#ccff00"/>
+                       <path d="M40 45V60C40 65.5228 44.4772 70 50 70C55.5228 70 60 65.5228 60 60V45H40Z" fill="#f472b6"/>
+                       <path d="M45 28C45 26 47 25 50 25" stroke="white" strokeWidth="2" strokeLinecap="round" opacity="0.5"/>
                     </g>
+                    {/* Stethoscope logic */}
+                    <path d="M25 30V40C25 55 35 65 50 65C65 65 75 55 75 40V30" stroke="#1e293b" strokeWidth="4" strokeLinecap="round"/>
+                    <path d="M50 65V85C50 90 55 92 60 92H65" stroke="#1e293b" strokeWidth="4" strokeLinecap="round"/>
+                    <circle cx="72" cy="92" r="6" fill="#f1f5f9" stroke="#1e293b" strokeWidth="3"/>
                  </svg>
               </div>
 
-              <h1 className="text-5xl md:text-7xl font-black tracking-tighter text-slate-900 mb-2 drop-shadow-sm">
+              <h1 className="text-6xl md:text-8xl font-black tracking-tighter text-slate-900 mb-2">
                 MED<span className="text-transparent bg-clip-text bg-gradient-to-r from-neon-blue to-neon-purple">-FAST</span>
               </h1>
-              <p className="text-lg md:text-2xl font-medium text-slate-600 max-w-2xl mx-auto mb-10">
-                Connect with Care, Decode Your Cure.
+              <p className="text-xl md:text-3xl font-bold text-slate-400 max-w-2xl mx-auto mb-12">
+                Your AI Healthcare Companion. <span className="text-neon-pink">Ranchi 2026 Edition.</span>
               </p>
 
-              {/* Central Navigation Toggle Bar */}
+              {/* Central Nav Bar */}
               <div className="w-full max-w-2xl mx-auto">
-                 <div className="relative flex bg-white/50 backdrop-blur-sm p-2 rounded-full border border-white/60 shadow-lg ring-1 ring-slate-900/5 w-full">
-                    {/* Sliding Background Pill */}
+                 <div className="relative flex bg-slate-100 rounded-full p-1.5 shadow-inner border border-slate-200">
                     <div 
-                      className="absolute top-2 bottom-2 rounded-full bg-gradient-to-r from-slate-900 to-slate-800 shadow-lg transition-all duration-300 ease-out z-0"
-                      style={getPillStyle()}
-                    />
+                      className="absolute top-1.5 bottom-1.5 rounded-full bg-white shadow-md transition-all duration-500 ease-in-out"
+                      style={{ left: `calc(${getPillPosition()} + 6px)`, width: 'calc(33.33% - 12px)' }}
+                    ></div>
 
-                    {/* Nav Items */}
-                    <button
-                      onClick={() => setMode(AppMode.FIND_DOCTOR)}
-                      className={`relative z-10 flex-1 py-3 sm:py-4 rounded-full text-sm sm:text-base font-bold transition-colors duration-300 flex flex-col sm:flex-row items-center justify-center gap-2 ${
-                        mode === AppMode.FIND_DOCTOR ? 'text-white' : 'text-slate-500 hover:text-slate-900'
-                      }`}
-                    >
-                      <svg className={`w-5 h-5 ${mode === AppMode.FIND_DOCTOR ? 'text-neon-blue' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                      </svg>
-                      <span>Find Doctors</span>
+                    <button onClick={() => setMode(AppMode.FIND_DOCTOR)} className={`relative z-10 flex-1 py-4 text-sm font-black transition-colors ${mode === AppMode.FIND_DOCTOR ? 'text-primary' : 'text-slate-400 hover:text-slate-600'}`}>
+                      FIND DOCTORS
                     </button>
-
-                    <button
-                      onClick={() => setMode(AppMode.ANALYZE_PRESCRIPTION)}
-                      className={`relative z-10 flex-1 py-3 sm:py-4 rounded-full text-sm sm:text-base font-bold transition-colors duration-300 flex flex-col sm:flex-row items-center justify-center gap-2 ${
-                        mode === AppMode.ANALYZE_PRESCRIPTION ? 'text-white' : 'text-slate-500 hover:text-slate-900'
-                      }`}
-                    >
-                      <svg className={`w-5 h-5 ${mode === AppMode.ANALYZE_PRESCRIPTION ? 'text-neon-green' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                      </svg>
-                      <span>Analyze Rx</span>
+                    <button onClick={() => setMode(AppMode.ANALYZE_PRESCRIPTION)} className={`relative z-10 flex-1 py-4 text-sm font-black transition-colors ${mode === AppMode.ANALYZE_PRESCRIPTION ? 'text-neon-green-dark' : 'text-slate-400 hover:text-slate-600'}`}>
+                      ANALYZE RX
                     </button>
-
-                    <button
-                      onClick={() => setMode(AppMode.LOCAL_DIRECTORY)}
-                      className={`relative z-10 flex-1 py-3 sm:py-4 rounded-full text-sm sm:text-base font-bold transition-colors duration-300 flex flex-col sm:flex-row items-center justify-center gap-2 ${
-                        mode === AppMode.LOCAL_DIRECTORY ? 'text-white' : 'text-slate-500 hover:text-slate-900'
-                      }`}
-                    >
-                      <svg className={`w-5 h-5 ${mode === AppMode.LOCAL_DIRECTORY ? 'text-neon-pink' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-                      </svg>
-                      <span>Local Dir</span>
+                    <button onClick={() => setMode(AppMode.LOCAL_DIRECTORY)} className={`relative z-10 flex-1 py-4 text-sm font-black transition-colors ${mode === AppMode.LOCAL_DIRECTORY ? 'text-neon-pink' : 'text-slate-400 hover:text-slate-600'}`}>
+                      LOCAL DIR
                     </button>
                  </div>
               </div>
            </div>
         </div>
 
-        <div className="relative z-10 pb-20">
-          <div className="max-w-7xl mx-auto px-2">
-            {mode === AppMode.FIND_DOCTOR && <DoctorFinder />}
-            {mode === AppMode.ANALYZE_PRESCRIPTION && <PrescriptionAnalyzer />}
-            {mode === AppMode.LOCAL_DIRECTORY && <LocalDirectory />}
-          </div>
+        <div className="max-w-7xl mx-auto px-4 pb-20">
+          {mode === AppMode.FIND_DOCTOR && <DoctorFinder />}
+          {mode === AppMode.ANALYZE_PRESCRIPTION && <PrescriptionAnalyzer />}
+          {mode === AppMode.LOCAL_DIRECTORY && <LocalDirectory />}
         </div>
       </main>
 
-      <footer className="bg-white/50 backdrop-blur-md border-t border-slate-100 py-10 mt-auto">
-        <div className="max-w-6xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center text-slate-500 text-sm gap-4">
-          <div className="flex items-center gap-2">
-            <span className="font-black text-slate-900">MED<span className="text-neon-blue">-FAST</span></span>
-            <span>&copy; {new Date().getFullYear()}</span>
-          </div>
-          <p className="text-xs text-slate-400 max-w-md text-center md:text-right">
-            Disclaimer: This tool provides information based on AI analysis and is not a substitute for professional medical advice, diagnosis, or treatment. Always consult a physician.
+      <footer className="bg-white border-t border-slate-100 py-12 mt-auto print:hidden">
+        <div className="max-w-6xl mx-auto px-4 text-center">
+          <div className="text-2xl font-black text-slate-900 mb-4">MED<span className="text-neon-blue">-FAST</span></div>
+          <p className="text-slate-400 text-sm max-w-xl mx-auto mb-6 font-medium">
+            Deploy this static app to GitHub Pages for free. Powered by advanced Gemini AI vision and Google Search grounding.
           </p>
+          <div className="flex justify-center gap-6 text-xs font-bold text-slate-300 uppercase tracking-widest">
+            <span>&copy; 2026 Ranchi Health</span>
+            <span>Privacy</span>
+            <span>Terms</span>
+          </div>
         </div>
       </footer>
     </div>
