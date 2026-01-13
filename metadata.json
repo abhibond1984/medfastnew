@@ -1,0 +1,7 @@
+{
+  "name": "MED-FAST",
+  "description": "Search for doctors and read any medicine with ease using MED-FAST. Powered by Gemini.",
+  "requestFramePermissions": [
+    "geolocation"
+  ]
+}
