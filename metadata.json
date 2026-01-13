@@ -1,7 +1,8 @@
 {
   "name": "MED-FAST",
-  "description": "Search for doctors and read any medicine with ease using MED-FAST. Powered by Gemini.",
+  "description": "High-performance AI health connect for Ranchi youth. Instant doctor search and prescription analysis.",
   "requestFramePermissions": [
-    "geolocation"
+    "geolocation",
+    "camera"
   ]
 }

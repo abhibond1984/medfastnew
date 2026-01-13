@@ -18,9 +18,15 @@ export const findDoctors = async (params: DoctorSearchParams): Promise<{ text: s
     locationQuery = "my current location";
   }
 
-  const prompt = `Find top-rated doctors, specialists, or clinics for "${problem}" in or near ${locationQuery}. 
-  Provide a list of at least 5 options if available. 
-  For each, briefly mention their specialty and rating if available.`;
+  const prompt = `Find the best healthcare options for "${problem}" in ${locationQuery}. 
+  I need a detailed list of at least 5 top-rated doctors, clinics, or hospitals.
+  
+  In your narrative response, for each provider:
+  1. Briefly describe their specific expertise related to ${problem}.
+  2. Mention why they are highly rated (e.g., patient reviews, advanced technology).
+  3. Ensure you provide a structured grounding using the available maps tool.
+  
+  Keep the narrative professional, helpful, and concise.`;
 
   const config: any = {
     tools: [{ googleMaps: {} }],
@@ -39,7 +45,6 @@ export const findDoctors = async (params: DoctorSearchParams): Promise<{ text: s
   }
 
   try {
-    // Maps grounding is only supported in Gemini 2.5 series
     const response = await ai.models.generateContent({
       model: "gemini-2.5-flash",
       contents: prompt,
@@ -81,7 +86,7 @@ export const analyzePrescription = async (imageBase64: string): Promise<Prescrip
         parts: [
           {
             inlineData: {
-              mimeType: "image/png", // Assuming PNG/JPEG, API handles standard image types
+              mimeType: "image/png",
               data: imageBase64,
             },
           },

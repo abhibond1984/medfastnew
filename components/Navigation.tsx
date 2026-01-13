@@ -4,33 +4,44 @@ import { AppMode } from '../types';
 interface NavigationProps {
   currentMode: AppMode;
   onModeChange: (mode: AppMode) => void;
+  theme: 'dark' | 'light';
+  onToggleTheme: () => void;
 }
 
-export const Navigation: React.FC<NavigationProps> = ({ currentMode, onModeChange }) => {
+export const Navigation: React.FC<NavigationProps> = ({ theme, onToggleTheme }) => {
   return (
-    <nav className="glass sticky top-0 z-50 transition-all duration-300 shadow-sm">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
+    <nav className="fixed top-0 left-0 right-0 z-[100] p-6 pointer-events-none">
+      <div className="max-w-7xl mx-auto flex justify-between items-center pointer-events-auto">
+        <div 
+          className={`glass-vibrant px-6 py-2.5 rounded-full shadow-2xl flex items-center gap-4 hover:scale-105 transition-all cursor-pointer group`} 
+          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+        >
+          <div className="w-8 h-8 bg-gradient-to-br from-brand-indigo to-brand-cyan rounded-full flex items-center justify-center text-white font-black text-[10px] shadow-lg shadow-indigo-500/20 group-hover:rotate-12 transition-transform">MF</div>
+          <span className={`text-xl font-display font-extrabold tracking-tighter ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>
+            Med<span className="gradient-text">-fast</span>
+          </span>
+        </div>
+
+        <div className="flex gap-4">
+          <button 
+            onClick={onToggleTheme}
+            className={`glass-vibrant p-3 rounded-full flex items-center justify-center transition-all hover:scale-110`}
+            title={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
+          >
+            {theme === 'dark' ? (
+              <svg className="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20"><path d="M10 12a2 2 0 100-4 2 2 0 000 4z"/><path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-13a1 1 0 10-2 0V3a1 1 0 102 0v2zm4 2a1 1 0 00-1 1v1a1 1 0 102 0V8a1 1 0 00-1-1zm3 3a1 1 0 100-2h-2a1 1 0 100 2h2zm-3 4a1 1 0 11-1-1 1 1 0 011 1zm-5 3a1 1 0 10-2 0v2a1 1 0 102 0v-2zm-4-2a1 1 0 11-1 1 1 1 0 011-1zm-3-3a1 1 0 100-2h2a1 1 0 100 2H3z" clipRule="evenodd"/></svg>
+            ) : (
+              <svg className="w-5 h-5 text-slate-700" fill="currentColor" viewBox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"/></svg>
+            )}
+          </button>
           
-          {/* Minimal Logo for Header */}
-          <div className="flex items-center cursor-pointer group" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
-            <div className="flex-shrink-0 flex items-center justify-center w-8 h-8 relative mr-2">
-              <svg className="h-8 w-8" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                 <path d="M6 3V6C6 8.20914 7.79086 10 10 10C12.2091 10 14 8.20914 14 6V3" stroke="#334155" strokeWidth="2" strokeLinecap="round"/>
-                 <path d="M10 10V14C10 16.2091 11.7909 18 14 18H15" stroke="#334155" strokeWidth="2" strokeLinecap="round"/>
-                 <circle cx="18" cy="18" r="3" fill="#e2e8f0" stroke="#334155" strokeWidth="2"/>
-                 <circle cx="18" cy="18" r="1" fill="#0ea5e9"/>
-              </svg>
+          <div className="hidden sm:flex glass-vibrant px-6 py-2.5 rounded-full items-center gap-4">
+            <div className="flex gap-1.5">
+               <div className="w-1.5 h-1.5 rounded-full bg-brand-rose animate-pulse"></div>
+               <div className="w-1.5 h-1.5 rounded-full bg-brand-indigo animate-pulse" style={{animationDelay: '0.2s'}}></div>
             </div>
-            <span className="text-xl font-extrabold text-slate-900 tracking-tight">
-              MED<span className="text-neon-blue drop-shadow-sm">-FAST</span>
-            </span>
+            <span className={`text-[9px] font-black uppercase tracking-widest ${theme === 'dark' ? 'text-slate-500' : 'text-slate-400'}`}>Core Hub</span>
           </div>
-
-          <div className="text-xs font-semibold text-slate-400 uppercase tracking-widest hidden sm:block">
-            AI Healthcare Companion
-          </div>
-
         </div>
       </div>
     </nav>
