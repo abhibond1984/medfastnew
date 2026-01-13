@@ -17,7 +17,7 @@ function App() {
 
   return (
     <div className={`min-h-screen flex flex-col relative overflow-hidden transition-colors duration-500 ${theme === 'dark' ? 'bg-[#0a0f1e]' : 'bg-[#f8f9ff]'}`}>
-      {/* Dynamic Background Elements */}
+      {/* Aesthetic Background Blobs */}
       <div className="blob-vibrant bg-brand-indigo w-[600px] h-[600px] top-[-200px] left-[-100px] animate-morph"></div>
       <div className="blob-vibrant bg-brand-cyan w-[500px] h-[500px] bottom-[-100px] right-[-100px] animate-morph" style={{ animationDelay: '2s' }}></div>
       <div className="blob-vibrant bg-brand-rose w-[400px] h-[400px] top-[20%] right-[10%] animate-morph" style={{ animationDelay: '4s' }}></div>
@@ -55,8 +55,8 @@ function App() {
             Healthcare at the speed of life.
           </p>
 
-          {/* Mode Switcher */}
-          <div className={`flex backdrop-blur-3xl p-2 rounded-full border transition-all shadow-2xl ${theme === 'dark' ? 'bg-white/5 border-white/10' : 'bg-slate-200/50 border-slate-300'}`}>
+          {/* Attractive Glassmorphic Mode Switcher */}
+          <div className={`flex backdrop-blur-3xl p-2 rounded-full border transition-all shadow-2xl ${theme === 'dark' ? 'bg-white/5 border-white/10 shadow-black' : 'bg-slate-200/50 border-slate-300'}`}>
             {[
               { id: AppMode.FIND_DOCTOR, label: 'Search', icon: '🔍' },
               { id: AppMode.ANALYZE_PRESCRIPTION, label: 'Report', icon: '🧾' },
