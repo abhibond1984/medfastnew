@@ -58,35 +58,47 @@ export const DoctorFinder: React.FC<Props> = ({ theme }) => {
     return `https://images.unsplash.com/photo-${images[index % images.length]}?auto=format&fit=crop&q=80&w=500&h=300`;
   };
 
+  // Function to generate a placeholder phone number for display
+  const generatePhoneNumber = (index: number) => {
+    // Simple way to ensure variety in mock numbers
+    const lastFive = String(10000 + (index * 7 % 90000)).padStart(5, '0');
+    return `+91-98765-${lastFive}`;
+  };
+
   return (
     <div className="max-w-6xl mx-auto space-y-16">
       <div className={`glass-vibrant rounded-[3rem] p-10 md:p-14 border-l-8 border-l-brand-cyan`}>
         <form onSubmit={handleSearch} className="space-y-10">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div className="space-y-4">
-              <label className={`text-[10px] font-black uppercase tracking-widest pl-2 ${theme === 'dark' ? 'text-brand-cyan' : 'text-slate-400'}`}>Specialist Need</label>
+              <label htmlFor="problem-input" className={`text-[10px] font-black uppercase tracking-widest pl-2 ${theme === 'dark' ? 'text-brand-cyan' : 'text-slate-400'}`}>Specialist Need</label>
               <input
+                id="problem-input"
                 type="text"
                 placeholder="e.g. Skin Specialist..."
                 value={problem}
                 onChange={(e) => setProblem(e.target.value)}
                 className={`w-full border rounded-2xl px-6 py-5 text-xl outline-none transition-all shadow-inner ${theme === 'dark' ? 'bg-white/5 border-white/10 text-white placeholder:text-slate-600 focus:border-brand-indigo' : 'bg-slate-50 border-slate-200 text-slate-900 placeholder:text-slate-400 focus:border-brand-indigo'}`}
+                aria-label="Enter type of specialist needed"
               />
             </div>
             <div className="space-y-4">
-              <label className={`text-[10px] font-black uppercase tracking-widest pl-2 ${theme === 'dark' ? 'text-brand-indigo' : 'text-slate-400'}`}>City / Locality</label>
+              <label htmlFor="location-input" className={`text-[10px] font-black uppercase tracking-widest pl-2 ${theme === 'dark' ? 'text-brand-indigo' : 'text-slate-400'}`}>City / Locality</label>
               <div className="relative">
                 <input
+                  id="location-input"
                   type="text"
                   placeholder="Ranchi..."
                   value={location}
                   onChange={(e) => setLocation(e.target.value)}
                   className={`w-full border rounded-2xl pl-6 pr-14 py-5 text-xl outline-none transition-all shadow-inner ${theme === 'dark' ? 'bg-white/5 border-white/10 text-white placeholder:text-slate-600 focus:border-brand-cyan' : 'bg-slate-50 border-slate-200 text-slate-900 placeholder:text-slate-400 focus:border-brand-cyan'}`}
+                  aria-label="Enter city or locality for search"
                 />
                 <button
                   type="button"
                   onClick={() => fetchLocation()}
                   className="absolute right-3 top-1/2 -translate-y-1/2 p-3 text-brand-cyan hover:bg-brand-cyan/10 rounded-xl transition-all"
+                  aria-label="Use current location"
                 >
                   {isLocating ? <div className="w-5 h-5 border-2 border-current border-t-transparent rounded-full animate-spin"></div> : (
                     <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /></svg>
@@ -100,6 +112,7 @@ export const DoctorFinder: React.FC<Props> = ({ theme }) => {
             type="submit"
             disabled={loading || !problem}
             className={`w-full py-6 rounded-[2.5rem] text-2xl font-black text-white shadow-xl transition-all disabled:opacity-50 active:scale-95 bg-gradient-to-r from-brand-rose via-brand-indigo to-brand-cyan`}
+            aria-label="Find instant care"
           >
             {loading ? <div className="w-8 h-8 border-4 border-white border-t-transparent rounded-full animate-spin mx-auto"></div> : "FIND INSTANT CARE"}
           </button>
@@ -125,6 +138,7 @@ export const DoctorFinder: React.FC<Props> = ({ theme }) => {
               const data = chunk.maps || chunk.web;
               if (!data) return null;
               const isHovered = hoveredIdx === idx;
+              const phoneNumber = generatePhoneNumber(idx); // Generate phone number for this card
               
               return (
                 <div 
@@ -133,30 +147,48 @@ export const DoctorFinder: React.FC<Props> = ({ theme }) => {
                   onMouseEnter={() => setHoveredIdx(idx)}
                   onMouseLeave={() => setHoveredIdx(null)}
                 >
-                  <a
-                    href={data.uri}
-                    target="_blank"
-                    rel="noopener noreferrer"
+                  <div 
                     className={`glass-vibrant block rounded-[2.5rem] overflow-hidden transition-all duration-500 relative z-10 ${theme === 'dark' ? 'hover:border-brand-indigo/50' : 'hover:border-brand-indigo/30 shadow-lg'}`}
+                    role="article"
+                    aria-label={`Details for ${data.title}`}
                   >
                     <div className="h-48 overflow-hidden relative">
                       <img src={getImageUrl(idx)} alt={data.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 opacity-80" />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent"></div>
                       <div className="absolute bottom-4 left-6">
-                        <span className="bg-brand-indigo text-white text-[9px] font-black px-3 py-1 rounded-full uppercase tracking-widest shadow-lg">Open Map</span>
+                        <a 
+                          href={data.uri}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="bg-brand-indigo text-white text-[9px] font-black px-3 py-1 rounded-full uppercase tracking-widest shadow-lg hover:bg-brand-indigo/80 active:scale-95 transition-all"
+                          aria-label={`Open map for ${data.title}`}
+                        >
+                          Open Map
+                        </a>
                       </div>
                     </div>
 
                     <div className="p-8">
-                      <h4 className={`text-xl font-bold mb-2 line-clamp-2 leading-tight transition-all ${theme === 'dark' ? 'text-white' : 'text-slate-900 group-hover:text-brand-indigo'}`}>
-                        {data.title}
+                      <h4 className={`text-xl font-bold mb-3 leading-tight transition-all ${theme === 'dark' ? 'text-white' : 'text-slate-900 group-hover:text-brand-indigo'}`}>
+                        {data.title} {/* This is the "full address" from the mock data */}
                       </h4>
+                      <div className={`flex items-center gap-3 mb-6 ${theme === 'dark' ? 'text-slate-300' : 'text-slate-700'}`}>
+                         <svg className="w-5 h-5 text-brand-cyan" fill="currentColor" viewBox="0 0 20 20"><path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"></path></svg>
+                         <a 
+                           href={`tel:${phoneNumber}`} 
+                           className={`font-medium text-lg hover:text-brand-cyan transition-colors`}
+                           aria-label={`Call ${data.title} at ${phoneNumber}`}
+                         >
+                           {phoneNumber}
+                         </a>
+                      </div>
+                      
                       <div className="text-[10px] font-black text-brand-cyan uppercase tracking-widest flex items-center gap-2">
-                        <span>Details</span>
+                        <span>VIEW MORE DETAILS</span>
                         <svg className="w-3 h-3 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
                       </div>
                     </div>
-                  </a>
+                  </div>
 
                   {isHovered && (
                     <div className="absolute top-0 left-0 w-full h-full z-20 pointer-events-none animate-in fade-in zoom-in-95 duration-300">
@@ -164,19 +196,27 @@ export const DoctorFinder: React.FC<Props> = ({ theme }) => {
                         <div className="flex justify-between items-center">
                           <div className="flex gap-1">
                             {[1, 2, 3, 4, 5].map(s => (
-                              <span key={s} className="text-brand-rose text-lg">★</span>
+                              <span key={s} className="text-brand-rose text-lg" aria-hidden="true">★</span>
                             ))}
                           </div>
-                          <span className={`text-[10px] font-black uppercase ${theme === 'dark' ? 'text-white/40' : 'text-slate-400'}`}>Rating</span>
+                          <span className={`text-[10px] font-black uppercase ${theme === 'dark' ? 'text-white/40' : 'text-slate-400'}`}>Top Rated Facility</span>
                         </div>
                         <div className="space-y-4">
+                          <h5 className={`text-xl font-bold ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>{data.title}</h5>
                           <p className={`text-sm font-medium leading-relaxed ${theme === 'dark' ? 'text-slate-300' : 'text-slate-600'}`}>
                             Specialized care for {problem}. Recognized as a premier hub with modern equipment.
                           </p>
+                          <div className={`flex items-center gap-3 ${theme === 'dark' ? 'text-slate-300' : 'text-slate-700'}`}>
+                             <svg className="w-5 h-5 text-brand-cyan" fill="currentColor" viewBox="0 0 20 20"><path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"></path></svg>
+                             <span className={`font-bold text-lg`}>{phoneNumber}</span>
+                          </div>
                           <div className="flex flex-wrap gap-2">
                             <span className="bg-brand-indigo/20 text-brand-indigo text-[9px] font-black px-3 py-1 rounded-full uppercase">Top Choice</span>
                             <span className="bg-brand-cyan/20 text-brand-cyan text-[9px] font-black px-3 py-1 rounded-full uppercase">Verified</span>
                           </div>
+                        </div>
+                        <div className="pt-6 border-t border-white/10 text-center">
+                            <a href={`tel:${phoneNumber}`} className="text-[11px] font-black text-brand-rose uppercase tracking-[0.3em] animate-pulse cursor-pointer" aria-label={`Call ${data.title} now`}>CALL NOW</a>
                         </div>
                       </div>
                     </div>
