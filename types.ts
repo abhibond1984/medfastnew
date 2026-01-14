@@ -14,6 +14,8 @@ export interface MapChunk {
   maps?: {
     uri: string;
     title: string;
+    phone?: string; // Added phone number
+    address?: string; // Added address
     placeAnswerSources?: {
       reviewSnippets?: {
         snippet: string;

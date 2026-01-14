@@ -34,24 +34,32 @@ const MOCK_DOCTOR_RESULTS = [
         maps: {
           uri: "https://www.google.com/maps/search/Medanta+Hospital+Ranchi",
           title: "Medanta Hospital, Irba, Ranchi",
+          phone: "+9118008913100",
+          address: "Medanta Hospital, Irba, Ranchi, Jharkhand 835221",
         },
       },
       {
         maps: {
           uri: "https://www.google.com/maps/search/Orchid+Medical+Centre+Ranchi",
           title: "Orchid Medical Centre, Lalpur, Ranchi",
+          phone: "+919117100100",
+          address: "Orchid Medical Centre, Kanka Rd, Lalpur, Ranchi, Jharkhand 834001",
         },
       },
       {
         maps: {
           uri: "https://www.google.com/maps/search/Santevita+Hospital+Ranchi",
           title: "Santevita Hospital, Morabadi, Ranchi",
+          phone: "+916517111555",
+          address: "Santevita Hospital, Morabadi, Ranchi, Jharkhand 834008",
         },
       },
       {
         maps: {
           uri: "https://www.google.com/maps/search/RIMS+Ranchi",
           title: "RIMS (Rajendra Institute of Medical Sciences), Bariatu, Ranchi",
+          phone: "+916512541533",
+          address: "RIMS, Bariatu, Ranchi, Jharkhand 834009",
         },
       },
     ],
@@ -79,18 +87,24 @@ const MOCK_DOCTOR_RESULTS = [
         maps: {
           uri: "https://www.google.com/maps/search/Dermacare+Clinic+Ranchi",
           title: "Dermacare Clinic, Doranda, Ranchi",
+          phone: "+917004667890",
+          address: "Dermacare Clinic, Doranda, Ranchi, Jharkhand 834002",
         },
       },
       {
         maps: {
           uri: "https://www.google.com/maps/search/Skin+and+Hair+Clinic+Ranchi",
           title: "Skin & Hair Clinic, Kanke Road, Ranchi",
+          phone: "+919876543210",
+          address: "Skin & Hair Clinic, Kanke Road, Ranchi, Jharkhand 834008",
         },
       },
       {
         maps: {
           uri: "https://www.google.com/maps/search/Apollo+Clinic+Ranchi",
           title: "Apollo Clinic, Bariatu Road, Ranchi",
+          phone: "+919234567890",
+          address: "Apollo Clinic, Bariatu Road, Ranchi, Jharkhand 834009",
         },
       },
     ],
