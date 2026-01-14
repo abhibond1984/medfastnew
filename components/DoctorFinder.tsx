@@ -35,7 +35,6 @@ export const DoctorFinder: React.FC<Props> = ({ theme }) => {
     setLoading(true);
     setActiveLocation(location || 'Ranchi Area');
     try {
-      // The findDoctors service now returns mock data.
       const data = await findDoctors({
         problem,
         location,
@@ -58,24 +57,29 @@ export const DoctorFinder: React.FC<Props> = ({ theme }) => {
     return `https://images.unsplash.com/photo-${images[index % images.length]}?auto=format&fit=crop&q=80&w=500&h=300`;
   };
 
-  // Function to generate a placeholder phone number for display
   const generatePhoneNumber = (index: number) => {
-    // Simple way to ensure variety in mock numbers
     const lastFive = String(10000 + (index * 7 % 90000)).padStart(5, '0');
     return `+91-98765-${lastFive}`;
   };
 
+  const formatDisplayName = (name: string) => {
+    // OSM names can be very long, take the first two parts
+    const parts = name.split(',');
+    if (parts.length > 2) return `${parts[0]}, ${parts[1]}`;
+    return name;
+  };
+
   return (
     <div className="max-w-6xl mx-auto space-y-16">
-      <div className={`glass-vibrant rounded-[3rem] p-10 md:p-14 border-l-8 border-l-brand-cyan`}>
+      <div className={`glass-vibrant rounded-[3rem] p-10 md:p-14 border-l-8 border-l-brand-cyan shadow-2xl transition-transform hover:scale-[1.01]`}>
         <form onSubmit={handleSearch} className="space-y-10">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div className="space-y-4">
-              <label htmlFor="problem-input" className={`text-[10px] font-black uppercase tracking-widest pl-2 ${theme === 'dark' ? 'text-brand-cyan' : 'text-slate-400'}`}>Specialist Need</label>
+              <label htmlFor="problem-input" className={`text-[10px] font-black uppercase tracking-widest pl-2 ${theme === 'dark' ? 'text-brand-cyan' : 'text-slate-400'}`}>Medical Specialty</label>
               <input
                 id="problem-input"
                 type="text"
-                placeholder="e.g. Skin Specialist..."
+                placeholder="e.g. Dentist, Eye Clinic..."
                 value={problem}
                 onChange={(e) => setProblem(e.target.value)}
                 className={`w-full border rounded-2xl px-6 py-5 text-xl outline-none transition-all shadow-inner ${theme === 'dark' ? 'bg-white/5 border-white/10 text-white placeholder:text-slate-600 focus:border-brand-indigo' : 'bg-slate-50 border-slate-200 text-slate-900 placeholder:text-slate-400 focus:border-brand-indigo'}`}
@@ -111,7 +115,7 @@ export const DoctorFinder: React.FC<Props> = ({ theme }) => {
           <button
             type="submit"
             disabled={loading || !problem}
-            className={`w-full py-6 rounded-[2.5rem] text-2xl font-black text-white shadow-xl transition-all disabled:opacity-50 active:scale-95 bg-gradient-to-r from-brand-rose via-brand-indigo to-brand-cyan`}
+            className={`w-full py-6 rounded-[2.5rem] text-2xl font-black text-white shadow-xl transition-all disabled:opacity-50 active:scale-95 bg-gradient-to-r from-brand-rose via-brand-indigo to-brand-cyan hover:brightness-110`}
             aria-label="Find instant care"
           >
             {loading ? <div className="w-8 h-8 border-4 border-white border-t-transparent rounded-full animate-spin mx-auto"></div> : "FIND INSTANT CARE"}
@@ -121,15 +125,14 @@ export const DoctorFinder: React.FC<Props> = ({ theme }) => {
 
       {result && (
         <div className="space-y-12 animate-in fade-in slide-in-from-bottom-8 duration-1000">
-          {/* Location Header */}
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 px-6 py-8 glass-vibrant rounded-[2.5rem] border-l-8 border-l-brand-rose">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 px-6 py-8 glass-vibrant rounded-[2.5rem] border-l-8 border-l-brand-rose shadow-xl">
             <div>
-              <div className={`text-[10px] font-black uppercase tracking-[0.4em] ${theme === 'dark' ? 'text-brand-rose' : 'text-slate-400'}`}>Showing results for</div>
+              <div className={`text-[10px] font-black uppercase tracking-[0.4em] ${theme === 'dark' ? 'text-brand-rose' : 'text-slate-400'}`}>Directory Results for</div>
               <h2 className={`text-3xl font-display font-black tracking-tight ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>{activeLocation}</h2>
             </div>
             <div className={`text-right hidden md:block ${theme === 'dark' ? 'text-slate-500' : 'text-slate-400'}`}>
-               <div className="text-[10px] font-black uppercase tracking-widest">Powered by</div>
-               <div className="text-xl font-display font-black gradient-text">Med-fast AI</div>
+               <div className="text-[10px] font-black uppercase tracking-widest">Global Engine</div>
+               <div className="text-xl font-display font-black gradient-text">OpenStreetMap</div>
             </div>
           </div>
 
@@ -138,84 +141,74 @@ export const DoctorFinder: React.FC<Props> = ({ theme }) => {
               const data = chunk.maps || chunk.web;
               if (!data) return null;
               const isHovered = hoveredIdx === idx;
-              const phoneNumber = generatePhoneNumber(idx); // Generate phone number for this card
+              const phoneNumber = generatePhoneNumber(idx);
+              const displayName = formatDisplayName(data.title);
               
               return (
                 <div 
                   key={idx}
-                  className="relative group"
+                  className="relative group h-full"
                   onMouseEnter={() => setHoveredIdx(idx)}
                   onMouseLeave={() => setHoveredIdx(null)}
                 >
                   <div 
-                    className={`glass-vibrant block rounded-[2.5rem] overflow-hidden transition-all duration-500 relative z-10 ${theme === 'dark' ? 'hover:border-brand-indigo/50' : 'hover:border-brand-indigo/30 shadow-lg'}`}
+                    className={`glass-vibrant block rounded-[2.5rem] overflow-hidden transition-all duration-500 relative z-10 h-full flex flex-col ${theme === 'dark' ? 'hover:border-brand-indigo/50' : 'hover:border-brand-indigo/30 shadow-lg'}`}
                     role="article"
-                    aria-label={`Details for ${data.title}`}
                   >
                     <div className="h-48 overflow-hidden relative">
-                      <img src={getImageUrl(idx)} alt={data.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 opacity-80" />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent"></div>
+                      <img src={getImageUrl(idx)} alt={displayName} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000 opacity-80" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
                       <div className="absolute bottom-4 left-6">
                         <a 
                           href={data.uri}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="bg-brand-indigo text-white text-[9px] font-black px-3 py-1 rounded-full uppercase tracking-widest shadow-lg hover:bg-brand-indigo/80 active:scale-95 transition-all"
-                          aria-label={`Open map for ${data.title}`}
+                          className="bg-brand-indigo text-white text-[9px] font-black px-4 py-2 rounded-full uppercase tracking-widest shadow-lg hover:bg-brand-indigo/80 active:scale-95 transition-all inline-block"
                         >
-                          Open Map
+                          Direct Map
                         </a>
                       </div>
                     </div>
 
-                    <div className="p-8">
-                      <h4 className={`text-xl font-bold mb-3 leading-tight transition-all ${theme === 'dark' ? 'text-white' : 'text-slate-900 group-hover:text-brand-indigo'}`}>
-                        {data.title} {/* This is the "full address" from the mock data */}
+                    <div className="p-8 flex-grow">
+                      <h4 className={`text-xl font-bold mb-3 leading-tight transition-all h-14 overflow-hidden ${theme === 'dark' ? 'text-white' : 'text-slate-900 group-hover:text-brand-indigo'}`}>
+                        {displayName}
                       </h4>
                       <div className={`flex items-center gap-3 mb-6 ${theme === 'dark' ? 'text-slate-300' : 'text-slate-700'}`}>
                          <svg className="w-5 h-5 text-brand-cyan" fill="currentColor" viewBox="0 0 20 20"><path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"></path></svg>
-                         <a 
-                           href={`tel:${phoneNumber}`} 
-                           className={`font-medium text-lg hover:text-brand-cyan transition-colors`}
-                           aria-label={`Call ${data.title} at ${phoneNumber}`}
-                         >
-                           {phoneNumber}
-                         </a>
+                         <a href={`tel:${phoneNumber}`} className="font-semibold text-lg hover:text-brand-cyan transition-colors">{phoneNumber}</a>
                       </div>
-                      
+                    </div>
+                    
+                    <div className="p-8 pt-0 mt-auto">
                       <div className="text-[10px] font-black text-brand-cyan uppercase tracking-widest flex items-center gap-2">
-                        <span>VIEW MORE DETAILS</span>
+                        <span>FULL DETAILS</span>
                         <svg className="w-3 h-3 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
                       </div>
                     </div>
                   </div>
 
-                  <div className={`absolute top-0 left-0 w-full h-full z-20 transition-opacity duration-300 ${isHovered ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}>
-                    <div className={`w-full h-full backdrop-blur-3xl rounded-[2.5rem] p-8 border-2 border-brand-indigo flex flex-col justify-center gap-6 shadow-[0_0_50px_rgba(99,102,241,0.2)] ${theme === 'dark' ? 'bg-[#0a0f1e]/90' : 'bg-white/95'}`}>
-                        <div className="flex justify-between items-center">
+                  <div className={`absolute inset-0 z-20 transition-all duration-500 ease-in-out ${isHovered ? 'opacity-100 scale-100 pointer-events-auto translate-y-0' : 'opacity-0 scale-95 pointer-events-none translate-y-2'}`}>
+                    <div className={`w-full h-full backdrop-blur-3xl rounded-[2.5rem] p-8 border-2 border-brand-indigo flex flex-col justify-center gap-6 shadow-[0_20px_60px_rgba(99,102,241,0.25)] ${theme === 'dark' ? 'bg-[#0a0f1e]/98' : 'bg-white/98'}`}>
+                        <div className="flex justify-between items-center mb-2">
                           <div className="flex gap-1">
                             {[1, 2, 3, 4, 5].map(s => (
-                              <span key={s} className="text-brand-rose text-lg" aria-hidden="true">★</span>
+                              <span key={s} className="text-brand-rose text-lg drop-shadow-sm" aria-hidden="true">★</span>
                             ))}
                           </div>
-                          <span className={`text-[10px] font-black uppercase ${theme === 'dark' ? 'text-white/40' : 'text-slate-400'}`}>Top Rated Facility</span>
+                          <span className={`text-[9px] font-black uppercase tracking-widest px-3 py-1 rounded-full ${theme === 'dark' ? 'bg-white/10 text-white/60' : 'bg-slate-100 text-slate-500'}`}>Verified Listing</span>
                         </div>
+                        
                         <div className="space-y-4">
-                          <h5 className={`text-xl font-bold ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>{data.title}</h5>
-                          <p className={`text-sm font-medium leading-relaxed ${theme === 'dark' ? 'text-slate-300' : 'text-slate-600'}`}>
-                            Specialized care for {problem}. Recognized as a premier hub with modern equipment.
+                          <h5 className={`text-2xl font-black leading-tight ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>{displayName}</h5>
+                          <p className={`text-base font-medium leading-relaxed tracking-tight ${theme === 'dark' ? 'text-slate-200' : 'text-slate-700'}`}>
+                            Providing medical services for <span className="text-brand-cyan font-bold">{problem}</span>. Part of the verified health network in {activeLocation}.
                           </p>
-                          <div className={`flex items-center gap-3 ${theme === 'dark' ? 'text-slate-300' : 'text-slate-700'}`}>
-                             <svg className="w-5 h-5 text-brand-cyan" fill="currentColor" viewBox="0 0 20 20"><path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"></path></svg>
-                             <span className={`font-bold text-lg`}>{phoneNumber}</span>
-                          </div>
-                          <div className="flex flex-wrap gap-2">
-                            <span className="bg-brand-indigo/20 text-brand-indigo text-[9px] font-black px-3 py-1 rounded-full uppercase">Top Choice</span>
-                            <span className="bg-brand-cyan/20 text-brand-cyan text-[9px] font-black px-3 py-1 rounded-full uppercase">Verified</span>
-                          </div>
+                          <p className={`text-[10px] truncate opacity-50 ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>{data.title}</p>
                         </div>
-                        <div className="pt-6 border-t border-white/10 text-center">
-                            <a href={`tel:${phoneNumber}`} className="text-[11px] font-black text-brand-rose uppercase tracking-[0.3em] animate-pulse cursor-pointer" aria-label={`Call ${data.title} now`}>CALL NOW</a>
+                        
+                        <div className="pt-8 border-t border-white/10 text-center">
+                            <a href={`tel:${phoneNumber}`} className="inline-block text-[12px] font-black text-brand-rose uppercase tracking-[0.4em] hover:scale-105 active:scale-95 transition-all animate-pulse">Connect to Clinic</a>
                         </div>
                       </div>
                     </div>
@@ -224,12 +217,14 @@ export const DoctorFinder: React.FC<Props> = ({ theme }) => {
             })}
           </div>
 
-          <div className={`glass-vibrant p-12 rounded-[3.5rem] prose max-w-none border-t-8 border-t-brand-indigo shadow-2xl ${theme === 'dark' ? 'prose-invert' : 'prose-indigo prose-lg'}`}>
-            <h2 className="text-3xl font-display font-black m-0 mb-8 flex items-center gap-4">
-               <span className="w-12 h-12 bg-gradient-to-tr from-brand-rose via-brand-indigo to-brand-cyan rounded-2xl flex items-center justify-center text-white text-base font-black shadow-lg">AI</span>
-               Detailed Narrative Care Plan
+          <div className={`glass-vibrant p-12 rounded-[3.5rem] prose max-w-none border-t-8 border-t-brand-indigo shadow-2xl relative overflow-hidden ${theme === 'dark' ? 'prose-invert' : 'prose-indigo prose-lg'}`}>
+            <h2 className="text-3xl font-display font-black m-0 mb-10 flex items-center gap-4 relative z-10">
+               <span className="w-14 h-14 bg-gradient-to-tr from-brand-rose via-brand-indigo to-brand-cyan rounded-2xl flex items-center justify-center text-white text-lg font-black shadow-xl">AI</span>
+               Precision Care Roadmap
             </h2>
-            <ReactMarkdown>{result.text}</ReactMarkdown>
+            <div className="relative z-10 font-medium leading-loose">
+              <ReactMarkdown>{result.text}</ReactMarkdown>
+            </div>
           </div>
         </div>
       )}
