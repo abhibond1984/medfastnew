@@ -190,9 +190,8 @@ export const DoctorFinder: React.FC<Props> = ({ theme }) => {
                     </div>
                   </div>
 
-                  {isHovered && (
-                    <div className="absolute top-0 left-0 w-full h-full z-20 pointer-events-none animate-in fade-in zoom-in-95 duration-300">
-                      <div className={`w-full h-full backdrop-blur-3xl rounded-[2.5rem] p-8 border-2 border-brand-indigo flex flex-col justify-center gap-6 shadow-[0_0_50px_rgba(99,102,241,0.2)] ${theme === 'dark' ? 'bg-[#0a0f1e]/90' : 'bg-white/95'}`}>
+                  <div className={`absolute top-0 left-0 w-full h-full z-20 transition-opacity duration-300 ${isHovered ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}>
+                    <div className={`w-full h-full backdrop-blur-3xl rounded-[2.5rem] p-8 border-2 border-brand-indigo flex flex-col justify-center gap-6 shadow-[0_0_50px_rgba(99,102,241,0.2)] ${theme === 'dark' ? 'bg-[#0a0f1e]/90' : 'bg-white/95'}`}>
                         <div className="flex justify-between items-center">
                           <div className="flex gap-1">
                             {[1, 2, 3, 4, 5].map(s => (
@@ -220,8 +219,7 @@ export const DoctorFinder: React.FC<Props> = ({ theme }) => {
                         </div>
                       </div>
                     </div>
-                  )}
-                </div>
+                  </div>
               );
             })}
           </div>
