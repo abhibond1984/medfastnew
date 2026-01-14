@@ -1,6 +1,6 @@
 {
   "name": "MED-FAST",
-  "description": "High-performance AI health connect for Ranchi youth. Instant doctor search and prescription analysis.",
+  "description": "High-performance AI health connect for Ranchi youth. Instant doctor search and prescription analysis (using mock data for static deployment).",
   "requestFramePermissions": [
     "geolocation",
     "camera"

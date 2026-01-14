@@ -35,6 +35,7 @@ export const DoctorFinder: React.FC<Props> = ({ theme }) => {
     setLoading(true);
     setActiveLocation(location || 'Ranchi Area');
     try {
+      // The findDoctors service now returns mock data.
       const data = await findDoctors({
         problem,
         location,

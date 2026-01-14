@@ -18,8 +18,9 @@ export const PrescriptionAnalyzer: React.FC<Props> = ({ theme }) => {
       const reader = new FileReader();
       reader.readAsDataURL(file);
       reader.onload = async () => {
+        // The analyzePrescription service now uses mock data, imageBase64 is ignored.
         const base64 = (reader.result as string).split(',')[1];
-        const data = await analyzePrescription(base64);
+        const data = await analyzePrescription(base64); 
         setResult(data);
         setLoading(false);
       };
